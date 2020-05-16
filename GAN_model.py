@@ -5,6 +5,7 @@ import numpy as np
 import collections
 import matplotlib.pyplot as plt
 
+import tensorflow as tf
 from tensorflow.keras import layers
 
 

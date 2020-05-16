@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow.keras import layers
 
-
 def make_generator():
     model = tf.keras.Sequential()
     #setup correct structure, example:
@@ -44,8 +43,11 @@ checkpoint = tf.train.Checkpoint(generator_optimizer=generator_optimizer,
                                  discriminator=discriminator)
 
 
+
+# Source for train_step:
+# https://www.tensorflow.org/tutorials/generative/dcgan
 @tf.function
-def train_step(images):
+def train_step(melody):
     # Example:
     noise = tf.random.normal([BATCH_SIZE, noise_dim])
 
@@ -64,7 +66,8 @@ def train_step(images):
     generator_optimizer.apply_gradients(zip(gradients_of_generator, generator.trainable_variables))
     discriminator_optimizer.apply_gradients(zip(gradients_of_discriminator, discriminator.trainable_variables))
 
-
+# Source for train:
+# https://www.tensorflow.org/tutorials/generative/dcgan
 def train(dataset, epochs):
     for epoch in range(epochs):
         start = time.time()
@@ -77,6 +80,10 @@ def train(dataset, epochs):
         checkpoint.save(file_prefix = checkpoint_prefix)
 
     print ('Time for epoch {} is {} sec'.format(epoch + 1, time.time()-start))
+
+# load data should return training, validation and test set
+def load_data():
+    return None
 
 
 if __name__ == "__main__":

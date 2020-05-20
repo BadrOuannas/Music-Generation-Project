@@ -1,0 +1,71 @@
+<theorytab>
+  <version>1.3</version>
+  <meta>
+    <artist>Hans Zimmer</artist>
+    <title>THE RED CAPES ARE COMING</title>
+    <beats_in_measure>4</beats_in_measure>
+    <BPM>120</BPM>
+    <key>A</key>
+    <YouTubeID>null</YouTubeID>
+    <mode>6</mode>
+    <band>
+      <lead>
+        <member>
+          <name>Piano</name>
+          <velocity>0.8</velocity>
+          <octaveOffset>0</octaveOffset>
+          <mute>false</mute>
+        </member>
+      </lead>
+      <lead2/>
+      <lead3/>
+      <lead4/>
+      <harmony>
+        <member>
+          <name>Piano 1/4s</name>
+          <velocity>0.8</velocity>
+          <octaveOffset>0</octaveOffset>
+          <mute>false</mute>
+        </member>
+      </harmony>
+      <bass>
+        <member>
+          <name>Piano Bass Dotted</name>
+          <velocity>0.8</velocity>
+          <octaveOffset>0</octaveOffset>
+          <mute>false</mute>
+        </member>
+      </bass>
+      <drums/>
+    </band>
+    <global_start>0</global_start>
+    <duration>212.081</duration>
+    <active_start>33.8</active_start>
+    <active_stop>51.02</active_stop>
+    <fingerprint>748118</fingerprint>
+  </meta>
+  <data>
+    <segment>
+      <melody>
+        <voice>
+          <lyrics/>
+          <notes/>
+        </voice>
+        <voice>
+          <lyrics/>
+          <notes/>
+        </voice>
+        <voice>
+          <lyrics/>
+          <notes/>
+        </voice>
+        <voice>
+          <lyrics/>
+          <notes/>
+        </voice>
+      </melody>
+      <harmony/>
+      <numMeasures>8</numMeasures>
+    </segment>
+  </data>
+</theorytab>

@@ -1,0 +1,30 @@
+<super>
+  <meta>
+    <artist/>
+    <title>down somehow</title>
+    <beats_in_measure>4</beats_in_measure>
+    <BPM>90</BPM>
+    <key>C</key>
+    <YouTubeID>z9MtumWfZlE</YouTubeID>
+    <mode>1</mode>
+    <sections>
+      <_Instrumental>
+        <global_start>85.79</global_start>
+        <section_duration>26.97</section_duration>
+        <active_start>2.7</active_start>
+        <active_stop>24.27</active_stop>
+      </_Instrumental>
+    </sections>
+  </meta>
+  <sections>
+    <_Instrumental>
+      <segment>
+        <instrument/>
+        <rhythm/>
+        <notes/>
+        <chords/>
+        <numMeasures>8</numMeasures>
+      </segment>
+    </_Instrumental>
+  </sections>
+</super>

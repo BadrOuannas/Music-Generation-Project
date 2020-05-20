@@ -1,0 +1,31 @@
+<super>
+  <meta>
+    <artist>The Good and the Damned</artist>
+    <title>Little Electric</title>
+    <beats_in_measure>4</beats_in_measure>
+    <BPM>105</BPM>
+    <key>A</key>
+    <YouTubeID>hDlHXMLzu5I</YouTubeID>
+    <mode>5</mode>
+    <sections>
+      <_Bridge>
+        <global_start>92.2</global_start>
+        <section_duration>22.85</section_duration>
+        <active_start>2.28</active_start>
+        <active_stop>20.56</active_stop>
+      </_Bridge>
+    </sections>
+  </meta>
+  <sections>
+    <_Bridge>
+      <segment>
+        <instrument/>
+        <rhythm/>
+        <lyrics/>
+        <notes/>
+        <chords/>
+        <numMeasures>8</numMeasures>
+      </segment>
+    </_Bridge>
+  </sections>
+</super>

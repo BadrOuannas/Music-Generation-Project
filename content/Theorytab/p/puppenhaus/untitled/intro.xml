@@ -1,0 +1,30 @@
+<super>
+  <meta>
+    <artist>ttolleson</artist>
+    <title>ModelT</title>
+    <beats_in_measure>4</beats_in_measure>
+    <BPM>128</BPM>
+    <key>C</key>
+    <YouTubeID>-0GA9m_PJvA</YouTubeID>
+    <mode>1</mode>
+    <sections>
+      <_Intro>
+        <global_start>0</global_start>
+        <section_duration>17</section_duration>
+        <active_start>0</active_start>
+        <active_stop>17</active_stop>
+      </_Intro>
+    </sections>
+  </meta>
+  <sections>
+    <_Intro>
+      <segment>
+        <instrument/>
+        <rhythm/>
+        <notes/>
+        <chords/>
+        <numMeasures>8</numMeasures>
+      </segment>
+    </_Intro>
+  </sections>
+</super>

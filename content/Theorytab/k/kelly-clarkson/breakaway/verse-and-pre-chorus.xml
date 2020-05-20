@@ -1,0 +1,31 @@
+<super>
+  <meta>
+    <artist>Kelly Clarkson</artist>
+    <title>Breakaway</title>
+    <beats_in_measure>3</beats_in_measure>
+    <BPM>160</BPM>
+    <key>C</key>
+    <YouTubeID/>
+    <mode>1</mode>
+    <sections>
+      <_Verse%20and%20Pre-Chorus>
+        <global_start>0</global_start>
+        <section_duration>235.47</section_duration>
+        <active_start>106.23</active_start>
+        <active_stop>124.27</active_stop>
+      </_Verse%20and%20Pre-Chorus>
+    </sections>
+  </meta>
+  <sections>
+    <_Verse%20and%20Pre-Chorus>
+      <segment>
+        <instrument/>
+        <rhythm/>
+        <lyrics/>
+        <notes/>
+        <chords/>
+        <numMeasures>8</numMeasures>
+      </segment>
+    </_Verse%20and%20Pre-Chorus>
+  </sections>
+</super>

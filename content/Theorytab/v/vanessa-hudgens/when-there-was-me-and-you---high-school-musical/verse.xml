@@ -1,0 +1,31 @@
+<super>
+  <meta>
+    <artist>Vanessa Hudgens</artist>
+    <title>When There Was Me and You - High School Musical</title>
+    <beats_in_measure>4</beats_in_measure>
+    <BPM>128</BPM>
+    <key>E</key>
+    <YouTubeID/>
+    <mode>1</mode>
+    <sections>
+      <_Verse>
+        <global_start>0</global_start>
+        <section_duration>174.676</section_duration>
+        <active_start>66.38</active_start>
+        <active_stop>100.33</active_stop>
+      </_Verse>
+    </sections>
+  </meta>
+  <sections>
+    <_Verse>
+      <segment>
+        <instrument/>
+        <rhythm/>
+        <lyrics/>
+        <notes/>
+        <chords/>
+        <numMeasures>8</numMeasures>
+      </segment>
+    </_Verse>
+  </sections>
+</super>

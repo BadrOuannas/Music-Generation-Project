@@ -1,0 +1,39 @@
+<super>
+  <meta>
+    <artist>Ylvis</artist>
+    <title>The Fox - What Does The Fox Say</title>
+    <beats_in_measure>4</beats_in_measure>
+    <BPM>129</BPM>
+    <key>C#</key>
+    <YouTubeID>jofNR_WkoCE</YouTubeID>
+    <mode>6</mode>
+    <sections>
+      <_Verse%20and%20Pre-Chorus>
+        <global_start>10.02</global_start>
+        <section_duration>33.52</section_duration>
+        <active_start>1.86</active_start>
+        <active_stop>31.66</active_stop>
+      </_Verse%20and%20Pre-Chorus>
+    </sections>
+  </meta>
+  <sections>
+    <_Verse%20and%20Pre-Chorus>
+      <segment>
+        <instrument/>
+        <rhythm/>
+        <lyrics/>
+        <notes/>
+        <chords/>
+        <numMeasures>8</numMeasures>
+      </segment>
+      <segment>
+        <instrument/>
+        <rhythm/>
+        <lyrics/>
+        <notes/>
+        <chords/>
+        <numMeasures>8</numMeasures>
+      </segment>
+    </_Verse%20and%20Pre-Chorus>
+  </sections>
+</super>

@@ -1,0 +1,31 @@
+<super>
+  <meta>
+    <artist>Switchfoot</artist>
+    <title>Dare You To Move</title>
+    <beats_in_measure>4</beats_in_measure>
+    <BPM>70</BPM>
+    <key>E</key>
+    <YouTubeID>iOTcr9wKC-o</YouTubeID>
+    <mode>1</mode>
+    <sections>
+      <_Verse>
+        <global_start>27.9</global_start>
+        <section_duration>29.98</section_duration>
+        <active_start>3</active_start>
+        <active_stop>26.98</active_stop>
+      </_Verse>
+    </sections>
+  </meta>
+  <sections>
+    <_Verse>
+      <segment>
+        <instrument/>
+        <rhythm/>
+        <lyrics/>
+        <notes/>
+        <chords/>
+        <numMeasures>8</numMeasures>
+      </segment>
+    </_Verse>
+  </sections>
+</super>

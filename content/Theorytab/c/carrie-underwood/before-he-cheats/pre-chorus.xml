@@ -1,0 +1,31 @@
+<super>
+  <meta>
+    <artist>Carrie Underwood</artist>
+    <title>Before He Cheats</title>
+    <beats_in_measure>4</beats_in_measure>
+    <BPM>74</BPM>
+    <key>F#</key>
+    <YouTubeID>WaSy8yy-mr8</YouTubeID>
+    <mode>6</mode>
+    <sections>
+      <_Pre-Chorus>
+        <global_start>18.3</global_start>
+        <section_duration>28.35</section_duration>
+        <active_start>2.83</active_start>
+        <active_stop>25.51</active_stop>
+      </_Pre-Chorus>
+    </sections>
+  </meta>
+  <sections>
+    <_Pre-Chorus>
+      <segment>
+        <instrument/>
+        <rhythm/>
+        <lyrics/>
+        <notes/>
+        <chords/>
+        <numMeasures>8</numMeasures>
+      </segment>
+    </_Pre-Chorus>
+  </sections>
+</super>

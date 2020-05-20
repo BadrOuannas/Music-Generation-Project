@@ -7,18 +7,21 @@ import matplotlib.pyplot as plt
 
 import tensorflow as tf
 from tensorflow.keras import layers
+from tensorflow.keras.losses import binary_crossentropy
+
 
 def make_generator():
     model = tf.keras.Sequential()
-    #setup correct structure, example:
+    # setup correct structure, example:
     model.add(layers.LSTM(350))
     model.add(layers.LSTM(350))
 
     return model
 
+
 def generator_loss(fake_output):
     # change to the wanted loss function
-    return cross_entropy(tf.ones_like(fake_output), fake_output)
+    return binary_crossentropy(tf.ones_like(fake_output), fake_output)
 
 
 def make_discriminator():
@@ -27,10 +30,11 @@ def make_discriminator():
 
     return model
 
+
 def discriminator_loss(real_output, fake_output):
     # change to the wanted loss function
-    real_loss = cross_entropy(tf.ones_like(real_output), real_output)
-    fake_loss = cross_entropy(tf.zeros_like(fake_output), fake_output)
+    real_loss = binary_crossentropy(tf.ones_like(real_output), real_output)
+    fake_loss = binary_crossentropy(tf.zeros_like(fake_output), fake_output)
     total_loss = real_loss + fake_loss
     return total_loss
 
@@ -41,7 +45,6 @@ checkpoint = tf.train.Checkpoint(generator_optimizer=generator_optimizer,
                                  discriminator_optimizer=discriminator_optimizer,
                                  generator=generator,
                                  discriminator=discriminator)
-
 
 
 # Source for train_step:
@@ -66,6 +69,7 @@ def train_step(melody):
     generator_optimizer.apply_gradients(zip(gradients_of_generator, generator.trainable_variables))
     discriminator_optimizer.apply_gradients(zip(gradients_of_discriminator, discriminator.trainable_variables))
 
+
 # Source for train:
 # https://www.tensorflow.org/tutorials/generative/dcgan
 def train(dataset, epochs):
@@ -77,9 +81,10 @@ def train(dataset, epochs):
 
     # Save the model every 15 epochs
     if (epoch + 1) % 15 == 0:
-        checkpoint.save(file_prefix = checkpoint_prefix)
+        checkpoint.save(file_prefix=checkpoint_prefix)
 
-    print ('Time for epoch {} is {} sec'.format(epoch + 1, time.time()-start))
+    print('Time for epoch {} is {} sec'.format(epoch + 1, time.time() - start))
+
 
 # load data should return training, validation and test set
 def load_data():
@@ -90,7 +95,7 @@ if __name__ == "__main__":
     # short tests without training:
     generator = make_generator()
 
-    noise = tf.random.normal([1, 100])                  # change these depending on architecture
+    noise = tf.random.normal([1, 100])  # change these depending on architecture
     generated_melody = generator(noise, training=False)
 
     discriminator = make_discriminator()
@@ -100,6 +105,5 @@ if __name__ == "__main__":
     # set optimizers before training:
     generator_optimizer = tf.keras.optimizers.Adam(1e-4)
     discriminator_optimizer = tf.keras.optimizers.Adam(1e-4)
-
 
     # setup training and then train

@@ -1,0 +1,31 @@
+<super>
+  <meta>
+    <artist/>
+    <title>New Project</title>
+    <beats_in_measure>4</beats_in_measure>
+    <BPM>128</BPM>
+    <key>C</key>
+    <YouTubeID>-TTPGAy5H_E</YouTubeID>
+    <mode>1</mode>
+    <sections>
+      <_Pre-Chorus%20and%20Chorus>
+        <global_start>0</global_start>
+        <section_duration>176.74</section_duration>
+        <active_start>7.32</active_start>
+        <active_stop>157.92</active_stop>
+      </_Pre-Chorus%20and%20Chorus>
+    </sections>
+  </meta>
+  <sections>
+    <_Pre-Chorus%20and%20Chorus>
+      <segment>
+        <instrument/>
+        <rhythm/>
+        <lyrics/>
+        <notes/>
+        <chords/>
+        <numMeasures>8</numMeasures>
+      </segment>
+    </_Pre-Chorus%20and%20Chorus>
+  </sections>
+</super>

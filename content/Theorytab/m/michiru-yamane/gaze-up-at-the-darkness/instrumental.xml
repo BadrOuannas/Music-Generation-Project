@@ -1,0 +1,31 @@
+<super>
+  <meta>
+    <artist>Michiru Yamane</artist>
+    <title>Gaze Up at the Darkness</title>
+    <beats_in_measure>4</beats_in_measure>
+    <BPM>150</BPM>
+    <key>F</key>
+    <YouTubeID/>
+    <mode>6</mode>
+    <sections>
+      <_Instrumental>
+        <global_start>0</global_start>
+        <section_duration>822.102</section_duration>
+        <active_start>0.15</active_start>
+        <active_stop>147.74</active_stop>
+      </_Instrumental>
+    </sections>
+  </meta>
+  <sections>
+    <_Instrumental>
+      <segment>
+        <instrument/>
+        <rhythm/>
+        <lyrics/>
+        <notes/>
+        <chords/>
+        <numMeasures>1</numMeasures>
+      </segment>
+    </_Instrumental>
+  </sections>
+</super>

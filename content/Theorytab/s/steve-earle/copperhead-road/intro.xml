@@ -1,0 +1,45 @@
+<super>
+  <meta>
+    <artist>DrCav</artist>
+    <title>copperhead road Steve Earle</title>
+    <beats_in_measure>4</beats_in_measure>
+    <BPM>128</BPM>
+    <key>D</key>
+    <YouTubeID>xvaEJzoaYZk</YouTubeID>
+    <mode>1</mode>
+    <sections>
+      <_Intro>
+        <global_start>0</global_start>
+        <section_duration>19.68</section_duration>
+        <active_start>1.82</active_start>
+        <active_stop>17.7</active_stop>
+      </_Intro>
+    </sections>
+  </meta>
+  <sections>
+    <_Intro>
+      <segment>
+        <instrument/>
+        <rhythm/>
+        <notes/>
+        <chords>
+          <chord>
+            <sd>1</sd>
+            <fb/>
+            <sec/>
+            <sus/>
+            <pedal/>
+            <alternate/>
+            <borrowed/>
+            <chord_duration>32</chord_duration>
+            <start_measure>1</start_measure>
+            <start_beat>1</start_beat>
+            <start_beat_abs>0</start_beat_abs>
+            <isRest>0</isRest>
+          </chord>
+        </chords>
+        <numMeasures>8</numMeasures>
+      </segment>
+    </_Intro>
+  </sections>
+</super>

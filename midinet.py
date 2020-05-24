@@ -80,6 +80,7 @@ class generator2(layers.Layer):
     def forward(self, z, prev_x, y, batch_size, pitch_range):
         # TODO
 
+
 class discriminator(layers.Layer):
     def __init__(self, pitch_range):
         super(discriminator, self).__init__()

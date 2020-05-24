@@ -54,8 +54,7 @@ def train():
         for idx in range(0, batch_idxs):
             batch_x = x[idx * batch_size:(idx + 1) * batch_size]
             batch_prev_x = prev_x[idx * batch_size:(idx + 1) * batch_size]
-            # chord_cond = chords[idx * batch_size:(idx + 1) * batch_size]
-            chord_cond = None
+            chord_cond = chords[idx * batch_size:(idx + 1) * batch_size]
 
             labels_real = tf.ones((batch_size, 1))
             labels_fake = tf.zeros((batch_size, 1))
@@ -81,19 +80,54 @@ def train():
                 zip(grads, model.discriminator.trainable_weights)
             )
 
-            g_loss0 = tf.math.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(pred_, labels_real))
+            # train generator
+            with tf.GradientTape() as tape:
+                _, pred_, fm_ = model.discriminator([model.generator([noise, batch_prev_x, chord_cond]), chord_cond])
+                _, pred, fm = model.discriminator([batch_x, chord_cond])
 
-            # Feature Matching
-            features_from_g = tf.math.reduce_mean(fm_, axis=0)
-            features_from_i = tf.math.reduce_mean(fm, axis=0)
-            fm_g_loss1 = tf.math.multiply(tf.nn.l2_loss(features_from_g - features_from_i), 0.1)
+                g_loss0 = tf.math.reduce_mean(model.loss_fn(pred_, labels_real))
 
-            mean_image_from_g = tf.math.reduce_mean(gen_midi, axis=0)
-            mean_image_from_i = tf.math.reduce_mean(batch_x, axis=0)
-            fm_g_loss2 = tf.math.multiply(tf.nn.l2_loss(mean_image_from_g - tf.cast(mean_image_from_i, dtype=float)), 0.01)
+                # Feature Matching
+                features_from_g = tf.math.reduce_mean(fm_, axis=0)
+                features_from_i = tf.math.reduce_mean(fm, axis=0)
+                fm_g_loss1 = tf.math.multiply(tf.nn.l2_loss(features_from_g - features_from_i), 0.1)
+
+                mean_image_from_g = tf.math.reduce_mean(gen_midi, axis=0)
+                mean_image_from_i = tf.math.reduce_mean(batch_x, axis=0)
+                fm_g_loss2 = tf.math.multiply(tf.nn.l2_loss(mean_image_from_g - tf.cast(mean_image_from_i, dtype=float)), 0.01)
+
+                g_loss = g_loss0 + fm_g_loss1 + fm_g_loss2
+
+            grads = tape.gradient(g_loss, model.generator.trainable_weights)
+            model.d_optimizer.apply_gradients(
+                zip(grads, model.generator.trainable_weights)
+            )
+
+            # train generator again!
+            with tf.GradientTape() as tape:
+                _, pred_, fm_ = model.discriminator([model.generator([noise, batch_prev_x, chord_cond]), chord_cond])
+                _, pred, fm = model.discriminator([batch_x, chord_cond])
+
+                g_loss0 = tf.math.reduce_mean(model.loss_fn(pred_, labels_real))
+
+                # Feature Matching
+                features_from_g = tf.math.reduce_mean(fm_, axis=0)
+                features_from_i = tf.math.reduce_mean(fm, axis=0)
+                fm_g_loss1 = tf.math.multiply(tf.nn.l2_loss(features_from_g - features_from_i), 0.1)
+
+                mean_image_from_g = tf.math.reduce_mean(gen_midi, axis=0)
+                mean_image_from_i = tf.math.reduce_mean(batch_x, axis=0)
+                fm_g_loss2 = tf.math.multiply(
+                    tf.nn.l2_loss(mean_image_from_g - tf.cast(mean_image_from_i, dtype=float)), 0.01)
+
+                g_loss = g_loss0 + fm_g_loss1 + fm_g_loss2
+
+            grads = tape.gradient(g_loss, model.generator.trainable_weights)
+            model.d_optimizer.apply_gradients(
+                zip(grads, model.generator.trainable_weights)
+            )
 
             d_loss = d_loss_real + d_loss_fake
-            g_loss = g_loss0 + fm_g_loss1 + fm_g_loss2
 
             d_loss_avg.update_state(d_loss)
             g_loss_avg.update_state(g_loss)

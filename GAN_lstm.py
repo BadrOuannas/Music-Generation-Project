@@ -14,7 +14,7 @@ from tensorflow import keras
 class Generator(keras.Model):
     def __init__(self, pitch_range, batch_size):
         super(Generator, self).__init__()
-        self.relu = layers.Dense(400, activation="relu", input_shape=(batch_size, 1, 128, 16))
+        self.relu = layers.Dense(400, activation="relu", input_shape=(batch_size*2, 1, 128, 16))
         self.lstm1 = layers.LSTM(400, activation="tanh", return_sequences=True)
         self.lstm2 = layers.LSTM(400, activation="tanh", return_sequences=True)
         self.linear = layers.Dense(3, activation="linear")

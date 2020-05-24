@@ -68,6 +68,18 @@ class generator(layers.Layer):
         return g_x
 
 
+class generator2(layers.Layer):
+    def __init__(self, pitch_range):
+        super(generator, self).__init__()
+        # need to add ex: "input_shape=(16,), not sure what our input dimension is."
+        self.relu = layers.Dense(400, activation="relu", input_shape=)
+        self.lrelu = layers.LeakyReLU(alpha=0.2)
+        self.lstm = layers.LSTM(400, activation="tanh", return_sequences=True)
+        self.linear = layers.Dense(3, activation="linear")
+    
+    def forward(self, z, prev_x, y, batch_size, pitch_range):
+        # TODO
+
 class discriminator(layers.Layer):
     def __init__(self, pitch_range):
         super(discriminator, self).__init__()
@@ -104,3 +116,16 @@ class discriminator(layers.Layer):
         h3_sigmoid = activ.sigmoid(h3)
 
         return h3_sigmoid, h3, fm
+
+
+class discriminator2(layers.Layer):
+    def __init__(self, pitch_range):
+        super(discriminator, self).__init__()
+
+        # need to add ex: "input_shape=(16,), not sure what our input dimension is."
+        self.lstm1 = layers.LSTM(400, activation="tanh", return_sequences=True, input_shape=)
+        self.lstm2 = layers.LSTM(400, activation="tanh", return_sequences=True)
+        self.output = layers.Dense(2, activation="sigmoid")                                     # real or fake => 2
+
+    def forward(self, x, y, batch_size, pitch_range):
+        # TODO

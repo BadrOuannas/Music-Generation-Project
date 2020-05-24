@@ -8,13 +8,13 @@ from GAN_midinet import *
 
 
 class MidiNet(keras.Model):
-    def __init__(self, chords, pitch_range=128, batch_size=72):
+    def __init__(self, pitch_range=128, batch_size=72):
         super(MidiNet, self).__init__()
         self.batch_size = batch_size
         self.generator = Generator(pitch_range, batch_size)
         self.discriminator = Discriminator(pitch_range, batch_size)
         self.sampler = Sampler(pitch_range, batch_size)
-        self.chords = chords
+        # self.chords = chords
 
     def compile(self, d_optimizer, g_optimizer, loss_fn):
         super(MidiNet, self).compile()
@@ -23,9 +23,8 @@ class MidiNet(keras.Model):
         self.loss_fn = loss_fn
 
     def train_step(self, inputs, **kwargs):
-        x = inputs[0]
-        prev_x = x
-        y = self.chords
+        x, prev_x, y = inputs
+        # y = self.chords
         # Sample random points in the latent space
         batch_size = tf.shape(x)[0]
         z = tf.random.normal(shape=tf.shape(x))

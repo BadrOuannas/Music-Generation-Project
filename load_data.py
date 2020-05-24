@@ -65,13 +65,13 @@ def build_matrix(note_list_all_c, dur_list_all_c):
                 new = []
                 for i in range(0, place, 16):
                     new.append(np_sample[0][:, :, i:i + 16])
-                new = np.asarray(new)  # (2,1,128,128) will become (16,1,128,16)
+                new = np.asarray(new)  # list of 8 arrays of shape (1,128,16) will become array of shape (8,1,128,16)
                 new_prev = np.zeros(new.shape, dtype=int)
                 new_prev[1:, :, :, :] = new[0:new.shape[0] - 1, :, :, :]
                 data_x.append(new)
                 prev_x.append(new_prev)
 
-    data_x = np.vstack(data_x)
+    data_x = np.vstack(data_x) # list of 518 arrays of shape (8, 1, 128, 16) to array of shape (4144, 1, 128, 16)
     prev_x = np.vstack(prev_x)
 
     return data_x, prev_x, zero_counter
@@ -508,7 +508,7 @@ def check_chord_type(list_file):
     list_ = []
     for file_ in list_file:
         try:
-            print(file_)
+            # print(file_)
             chorus_file = ET.parse(file_)
             root = chorus_file.getroot()
             check_list = []
@@ -539,7 +539,9 @@ def get_listfile(dataset_path):
 
     for root, dirs, files in os.walk(dataset_path):
         for f in files:
-            if splitext(f)[1] == '.xml':
+            print(f)
+            if f == 'chorus.xml':
+            # if f.name == "chorus.xml":
                 fp = join(root, f)
                 list_file.append(fp)
 
@@ -551,7 +553,7 @@ def main():
     is_get_matrix = 1
 
     if is_get_data == 1:
-        a = ".\\content\\XML"
+        a = ".\\content\\Theorytab"
         list_file = get_listfile(a)
         list_ = check_chord_type(list_file)
         list_of_four_beat = beats_(list_)

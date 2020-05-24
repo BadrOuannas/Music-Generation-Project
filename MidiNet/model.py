@@ -8,8 +8,8 @@ import numpy as np
 from six.moves import xrange
 # import SharedArray as sa
 from sklearn.utils import shuffle
-from midinet.ops import *
-from midinet.utils import *
+from MidiNet.ops import *
+from MidiNet.utils import *
 
 
 class MidiNet(object):

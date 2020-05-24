@@ -4,7 +4,7 @@ import numpy as np
 import tensorflow as tf
 
 from tensorflow.python.framework import ops
-from tensorflow.keras
+# from tensorflow.keras
 
 from MidiNet.utils import *
 
@@ -23,13 +23,6 @@ class batch_norm(object):
                                             epsilon=self.epsilon,
                                             scale=True,
                                             scope=self.name)
-
-def batch_norm_2d(x):
-    x_shape = x.shape[1]
-    batch_nor = nn.BatchNorm2d(x_shape, eps=1e-05, momentum=0.9, affine=True)
-    batch_nor = batch_nor.cuda()
-    output = batch_nor(x)
-    return output
 
 
 def binary_cross_entropy(preds, targets, name=None):

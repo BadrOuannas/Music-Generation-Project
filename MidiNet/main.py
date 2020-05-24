@@ -2,8 +2,8 @@
 import os
 import scipy.misc
 import numpy as np
-from midinet.model import MidiNet
-from midinet.utils import pp, to_json, generation_test
+from GAN_midinet.model import MidiNet
+from GAN_midinet.utils import pp, to_json, generation_test
 
 os.environ["CUDA_VISIBLE_DEVICES"] = '1'
 

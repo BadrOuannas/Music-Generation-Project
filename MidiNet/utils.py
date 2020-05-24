@@ -79,7 +79,7 @@ def to_json(output_path, *layers):
             biases = {"sy": 1, "sx": 1, "depth": depth, "w": ['%.2f' % elem for elem in list(B)]}
             if bn != None:
                 gamma = bn.gamma.eval()
-                beta = bn.beta.eval()
+                beta = bn.beta1.eval()
 
                 gamma = {"sy": 1, "sx": 1, "depth": depth, "w": ['%.2f' % elem for elem in list(gamma)]}
                 beta = {"sy": 1, "sx": 1, "depth": depth, "w": ['%.2f' % elem for elem in list(beta)]}
@@ -168,11 +168,11 @@ def generation_test(sess, dcgan, config, option, prev_bar):
         sample_labels = sloppy_sample_labels()
         prev_batch_images = np.zeros((72, 16, 128, 1))
         z_sample = np.random.normal(0, 1, size=(config.batch_size, dcgan.z_dim))
-        samples = sess.run(dcgan.sampler, feed_dict={dcgan.z: z_sample, dcgan.y:sample_labels, dcgan.prev_bar:prev_batch_images})
+        samples = sess.run(dcgan.Sampler, feed_dict={dcgan.z: z_sample, dcgan.chords:sample_labels, dcgan.prev_bar:prev_batch_images})
 
     elif option == 1:
         sample_labels = sloppy_sample_labels()
         prev_batch_images = np.tile(prev_bar,(72,1,1,1))
         z_sample = np.random.normal(0, 1, size=(config.batch_size, dcgan.z_dim))
-        samples = sess.run(dcgan.sampler, feed_dict={dcgan.z: z_sample, dcgan.y:sample_labels, dcgan.prev_bar:prev_batch_images})
+        samples = sess.run(dcgan.Sampler, feed_dict={dcgan.z: z_sample, dcgan.chords:sample_labels, dcgan.prev_bar:prev_batch_images})
     return samples

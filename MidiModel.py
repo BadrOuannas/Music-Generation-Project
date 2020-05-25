@@ -1,10 +1,9 @@
-import tensorflow as tf
-import tensorflow.keras.layers as layers
-import tensorflow.keras.optimizers as optim
-import tensorflow.keras.activations as activ
-
 from tensorflow import keras
 from GAN_midinet import *
+
+"""
+Model for midinet construct the GAN model
+"""
 
 
 class MidiNet(keras.Model):

@@ -7,6 +7,11 @@ from tensorflow import keras
 import matplotlib.pyplot as plt
 
 
+"""
+Code for training the GAN model for Midinet
+"""
+
+
 def load_datasets(datasets):
     x_file, prev_x_file, y_file = datasets
     x = np.load(x_file, allow_pickle=True)
@@ -20,7 +25,7 @@ def load_datasets(datasets):
     return x, prev_x, y
 
 
-def train():
+def main():
     batch_size = 72
     pitch_range = 128
     lr = 0.00005
@@ -139,11 +144,15 @@ def train():
         print("Epoch {:02d}/{:02d}: D_loss: {:.3f} G_loss: {:.3f}".format(epoch, num_epochs, d_loss_avg.result(),
                                                                               g_loss_avg.result()))
 
+    # inputs = keras.Input(shape=x.shape[1:], batch_size=batch_size)
+    # model._set_inputs(inputs)
+    # saving the model's generator
+    # model.generator.save_weights("./weights/gen_weights", save_format='tf')
     plt.plot(np.arange(len(d_loss_list)), d_loss_list, 'cx', label="d_loss")
     plt.plot(np.arange(len(g_loss_list)), g_loss_list, 'bx', label="g_loss")
     plt.legend()
     plt.show()
 
 
-
-train()
+if __name__ == "__main__":
+    main()

@@ -59,7 +59,7 @@ def main():
     chords = np.load('./samples/chords.npy')
 
     volume = 200
-    instrument = 25  # guitar; see https://www.midi.org/specifications/item/gm-level-1-sound-set for more info
+    instrument = 1  # piano; see https://www.midi.org/specifications/item/gm-level-1-sound-set for more info
     chord_map = build_chord_map()
 
     for i in range(songs.shape[0]):
@@ -79,29 +79,8 @@ def main():
 
         chord_track = make_chord_track(style, instrument, volume)
 
-        multitrack = Multitrack(tracks=[song_track, chord_track], tempo=120.0, beat_resolution=4)
+        multitrack = Multitrack(tracks=[song_track, chord_track], tempo=100.0, beat_resolution=4)
         multitrack.write("./songs/gen_midi{}_instrument{}.mid".format(i, instrument))
-
-
-    # shape = prev_x.shape
-    # pianorolls = []
-    #
-    #
-    # # for i in range(1,2):
-    # for _ in range(num_samples):
-    #     sample = model.generator([noise, , chords])
-    #     for i in range(batch_size):
-    #         pianorolls.append(sample[i, :, :, :].reshape(shape[1], shape[2])*200)
-    #
-    # pianoroll = np.vstack(pianorolls)
-    # print(pianoroll.shape)
-    # track = Track(pianoroll=current_song, program=0, is_drum=False)
-    #
-    # multitrack = Multitrack(tracks=[track])
-    # multitrack.write('test.mid')
-    #
-    # fig, axs = multitrack.plot()
-    # plt.show()
 
 
 if __name__ == '__main__':

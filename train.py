@@ -1,10 +1,12 @@
-from MidiModel import MidiNet
 import numpy as np
 import tensorflow as tf
-
-from sklearn.utils import shuffle
-from tensorflow import keras
 import matplotlib.pyplot as plt
+
+from random import random, seed, randint
+from sklearn.utils import shuffle
+from MidiModel import MidiNet
+from tensorflow import keras
+
 
 
 """
@@ -17,12 +19,47 @@ def load_datasets(datasets):
     x = np.load(x_file, allow_pickle=True)
     prev_x = np.load(prev_x_file, allow_pickle=True)
     n = x.shape[0]
+
+    # chords
+    y = g_major(n) # change however you like! array (n, 13) see table 2 paper
+    # y = np.load(y_file, allow_pickle=True)
+    return x, prev_x, y
+
+
+def a_minor(n):
     y = []
     for i in range(n):
         y.append([1] + [0] * 11 + [1])
     y = np.vstack(y)
-    # y = np.load(y_file, allow_pickle=True)
-    return x, prev_x, y
+    return y
+
+
+def c_major(n):
+    y = []
+    for i in range(n):
+        y.append([1] + [0] * 11 + [0])
+    y = np.vstack(y)
+    return y
+
+
+def g_major(n):
+    y = []
+    for i in range(n):
+        y.append([0] * 7 + [1] + [0] * 4 + [0])
+    y = np.vstack(y)
+    return y
+
+
+def construct_random_chords(rs, batch_size):
+    seed(rs)
+    chords = np.zeros((batch_size, 13))
+    for i in range(batch_size):
+        u = random()
+        if u < 0.5:
+            chords[i, -1] = 1
+        chords[i, randint(0, 11)] = 1
+    return chords
+
 
 
 def main():
@@ -57,9 +94,11 @@ def main():
         batch_idxs = x.shape[0] // batch_size
 
         for idx in range(0, batch_idxs):
+            seed = 2020
             batch_x = x[idx * batch_size:(idx + 1) * batch_size]
             batch_prev_x = prev_x[idx * batch_size:(idx + 1) * batch_size]
             chord_cond = chords[idx * batch_size:(idx + 1) * batch_size]
+            # chord_cond = construct_random_chords(seed, batch_size)
 
             labels_real = tf.ones((batch_size, 1))
             labels_fake = tf.zeros((batch_size, 1))
@@ -147,7 +186,7 @@ def main():
     # inputs = keras.Input(shape=x.shape[1:], batch_size=batch_size)
     # model._set_inputs(inputs)
     # saving the model's generator
-    # model.generator.save_weights("./weights/gen_weights", save_format='tf')
+    model.generator.save_weights("./weights_g_major_20epochs/gen_weights", save_format='tf')
     plt.plot(np.arange(len(d_loss_list)), d_loss_list, 'cx', label="d_loss")
     plt.plot(np.arange(len(g_loss_list)), g_loss_list, 'bx', label="g_loss")
     plt.legend()

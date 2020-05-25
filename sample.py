@@ -25,7 +25,7 @@ def construct_random_chords(rs, batch_size):
     return chords
 
 
-def c_major(batch_size):
+def a_minor(batch_size):
     chords = np.zeros((batch_size, 13))
     chords[:, 0] = 1
     chords[:, -1] = 1
@@ -38,7 +38,8 @@ def main():
     noise_dim = 100
     num_max_songs = 10
 
-    model = load_model("./weights/gen_weights.index", pitch_range, batch_size)
+    # choosing model
+    model = load_model("./weights_random_100epochs/gen_weights.index", pitch_range, batch_size)
 
     prev_x = np.load('prev_x.npy')
     prev_x = np.transpose(prev_x, (0, 3, 2, 1))
@@ -51,10 +52,10 @@ def main():
     chords = []
 
     for idx in range(0, min(batch_idxs, num_max_songs)):
-        seed = 2020 * 17 + idx
+        seed = 2020
         batch_prev_x = prev_x[idx * batch_size:(idx + 1) * batch_size]
         chord_cond = construct_random_chords(seed, batch_size)
-        # chord_cond = c_major(batch_size)
+        # chord_cond = a_minor(batch_size)
         noise = tf.random.normal(shape=(batch_size, noise_dim))
 
         current_song = model.generator([noise, batch_prev_x, chord_cond])
@@ -64,26 +65,6 @@ def main():
     chords = np.asarray(chords)
     np.save('./samples/songs.npy', songs)
     np.save('./samples/chords.npy', chords)
-
-    # shape = prev_x.shape
-    # pianorolls = []
-    #
-    #
-    # # for i in range(1,2):
-    # for _ in range(num_samples):
-    #     sample = model.generator([noise, , chords])
-    #     for i in range(batch_size):
-    #         pianorolls.append(sample[i, :, :, :].reshape(shape[1], shape[2])*200)
-    #
-    # pianoroll = np.vstack(pianorolls)
-    # print(pianoroll.shape)
-    # track = Track(pianoroll=pianoroll, program=0, is_drum=False)
-    #
-    # multitrack = Multitrack(tracks=[track])
-    # multitrack.write('test.mid')
-    #
-    # fig, axs = multitrack.plot()
-    # plt.show()
 
 
 if __name__ == '__main__':

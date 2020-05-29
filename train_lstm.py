@@ -26,8 +26,8 @@ def main():
     depth = 3
 
     lr = 0.0001
-    beta1 = 0.5
-    noise_dim = 100
+    beta1 = 0.75
+    noise_dim = 128
     num_epochs = 50
 
     x = load_dataset('./data/data_x.npy')

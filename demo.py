@@ -7,6 +7,7 @@ from pypianoroll import Track, Multitrack
 from sklearn.utils import shuffle
 from MidiModel import MidiNet
 
+# 3 first functions use implementation of annahung31
 
 # building the chord map see paper table 2
 def build_chord_map():
@@ -55,10 +56,10 @@ def make_chord_track(chord, instrument, volume):
 
 
 def main():
-    songs = np.load('./samples/songs.npy') # array of shape (N, 128, 128) N number of songs sampled with the generator
+    songs = np.load('./samples/songs.npy')  # array of shape (N, 128, 128) N number of songs sampled with the generator
     chords = np.load('./samples/chords.npy')
 
-    volume = 200
+    volume = 50
     instrument = 1  # piano; see https://www.midi.org/specifications/item/gm-level-1-sound-set for more info
     chord_map = build_chord_map()
 

@@ -41,7 +41,7 @@ def main():
     # choosing model
     model = load_model("./weights_random_100epochs/gen_weights.index", pitch_range, batch_size)
 
-    prev_x = np.load('prev_x.npy')
+    prev_x = np.load('./data/prev_x.npy')
     prev_x = np.transpose(prev_x, (0, 3, 2, 1))
     prev_x = shuffle(prev_x)
     # chords_cond = construct_random_chords(2020, batch_size)

@@ -7,8 +7,6 @@ from sklearn.utils import shuffle
 from MidiModel import MidiNet
 from tensorflow import keras
 
-
-
 """
 Code for training the GAN model for Midinet
 """
@@ -21,7 +19,7 @@ def load_datasets(datasets):
     n = x.shape[0]
 
     # chords
-    y = g_major(n) # change however you like! array (n, 13) see table 2 paper
+    y = g_major(n)  # change however you like! array (n, 13) see table 2 paper
     # y = np.load(y_file, allow_pickle=True)
     return x, prev_x, y
 
@@ -61,14 +59,13 @@ def construct_random_chords(rs, batch_size):
     return chords
 
 
-
 def main():
     batch_size = 72
     pitch_range = 128
     lr = 0.00005
     beta1 = 0.5
     noise_dim = 100
-    num_epochs = 20
+    num_epochs = 100
 
     datasets = ['data_x.npy', 'prev_x.npy', 'chords.npy']
     x, prev_x, chords = load_datasets(datasets)
@@ -134,35 +131,12 @@ def main():
                 # Feature Matching
                 features_from_g = tf.math.reduce_mean(fm_, axis=0)
                 features_from_i = tf.math.reduce_mean(fm, axis=0)
-                fm_g_loss1 = tf.math.multiply(tf.nn.l2_loss(features_from_g - features_from_i), 0.1)
-
-                mean_image_from_g = tf.math.reduce_mean(gen_midi, axis=0)
-                mean_image_from_i = tf.math.reduce_mean(batch_x, axis=0)
-                fm_g_loss2 = tf.math.multiply(tf.nn.l2_loss(mean_image_from_g - tf.cast(mean_image_from_i, dtype=float)), 0.01)
-
-                g_loss = g_loss0 + fm_g_loss1 + fm_g_loss2
-
-            grads = tape.gradient(g_loss, model.generator.trainable_weights)
-            model.d_optimizer.apply_gradients(
-                zip(grads, model.generator.trainable_weights)
-            )
-
-            # train generator again!
-            with tf.GradientTape() as tape:
-                _, pred_, fm_ = model.discriminator([model.generator([noise, batch_prev_x, chord_cond]), chord_cond])
-                _, pred, fm = model.discriminator([batch_x, chord_cond])
-
-                g_loss0 = tf.math.reduce_mean(model.loss_fn(pred_, labels_real))
-
-                # Feature Matching
-                features_from_g = tf.math.reduce_mean(fm_, axis=0)
-                features_from_i = tf.math.reduce_mean(fm, axis=0)
-                fm_g_loss1 = tf.math.multiply(tf.nn.l2_loss(features_from_g - features_from_i), 0.1)
+                fm_g_loss1 = tf.math.multiply(tf.nn.l2_loss(features_from_g - features_from_i), 0.1) # lambda2 = 0.1
 
                 mean_image_from_g = tf.math.reduce_mean(gen_midi, axis=0)
                 mean_image_from_i = tf.math.reduce_mean(batch_x, axis=0)
                 fm_g_loss2 = tf.math.multiply(
-                    tf.nn.l2_loss(mean_image_from_g - tf.cast(mean_image_from_i, dtype=float)), 0.01)
+                    tf.nn.l2_loss(mean_image_from_g - tf.cast(mean_image_from_i, dtype=float)), 0.01) # lambda1 = 0.01
 
                 g_loss = g_loss0 + fm_g_loss1 + fm_g_loss2
 
@@ -170,6 +144,30 @@ def main():
             model.d_optimizer.apply_gradients(
                 zip(grads, model.generator.trainable_weights)
             )
+
+            # # train generator again!
+            # with tf.GradientTape() as tape:
+            #     _, pred_, fm_ = model.discriminator([model.generator([noise, batch_prev_x, chord_cond]), chord_cond])
+            #     _, pred, fm = model.discriminator([batch_x, chord_cond])
+            #
+            #     g_loss0 = tf.math.reduce_mean(model.loss_fn(pred_, labels_real))
+            #
+            #     # Feature Matching
+            #     features_from_g = tf.math.reduce_mean(fm_, axis=0)
+            #     features_from_i = tf.math.reduce_mean(fm, axis=0)
+            #     fm_g_loss1 = tf.math.multiply(tf.nn.l2_loss(features_from_g - features_from_i), 0.1)
+            #
+            #     mean_image_from_g = tf.math.reduce_mean(gen_midi, axis=0)
+            #     mean_image_from_i = tf.math.reduce_mean(batch_x, axis=0)
+            #     fm_g_loss2 = tf.math.multiply(
+            #         tf.nn.l2_loss(mean_image_from_g - tf.cast(mean_image_from_i, dtype=float)), 0.01)
+            #
+            #     g_loss = g_loss0 + fm_g_loss1 + fm_g_loss2
+            #
+            # grads = tape.gradient(g_loss, model.generator.trainable_weights)
+            # model.d_optimizer.apply_gradients(
+            #     zip(grads, model.generator.trainable_weights)
+            # )
 
             d_loss = d_loss_real + d_loss_fake
 
@@ -181,7 +179,7 @@ def main():
         g_loss_list.append(g_loss_avg.result())
 
         print("Epoch {:02d}/{:02d}: D_loss: {:.3f} G_loss: {:.3f}".format(epoch, num_epochs, d_loss_avg.result(),
-                                                                              g_loss_avg.result()))
+                                                                          g_loss_avg.result()))
 
     # inputs = keras.Input(shape=x.shape[1:], batch_size=batch_size)
     # model._set_inputs(inputs)

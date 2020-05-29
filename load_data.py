@@ -90,8 +90,8 @@ def check_melody_range(note_list_all, dur_list_all):
             in_range += 1
             note_list_all_c.append(song)
             dur_list_all_c.append(dur_list_all[i])
-    np.save('dur_list_all_c.npy', dur_list_all_c)
-    np.save('note_list_all_c.npy', note_list_all_c)
+    np.save('./data/dur_list_all_c.npy', dur_list_all_c)
+    np.save('./data/note_list_all_c.npy', note_list_all_c)
 
     return in_range, note_list_all_c, dur_list_all_c
 
@@ -566,12 +566,12 @@ def main():
         print('melody in range: {}'.format(len(note_list_all)))
 
     if is_get_matrix == 1:
-        note_list_all_c = np.load('note_list_all_c.npy', allow_pickle=True)
-        dur_list_all_c = np.load('dur_list_all_c.npy', allow_pickle=True)
+        note_list_all_c = np.load('./data/note_list_all_c.npy', allow_pickle=True)
+        dur_list_all_c = np.load('./data/dur_list_all_c.npy', allow_pickle=True)
 
         data_x, prev_x, zero_counter = build_matrix(note_list_all_c, dur_list_all_c)
-        np.save('data_x.npy', data_x)
-        np.save('prev_x.npy', prev_x)
+        np.save('./data/data_x.npy', data_x)
+        np.save('./data/prev_x.npy', prev_x)
 
         print('final tab num: {}'.format(len(note_list_all_c)))
         print('songs not long enough: {}'.format(zero_counter))

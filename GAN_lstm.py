@@ -4,7 +4,6 @@ import tensorflow.keras.activations as activ
 
 from tensorflow import keras
 
-
 """
     Architecture based on:
         https://arxiv.org/pdf/1908.05551.pdf
@@ -12,36 +11,59 @@ from tensorflow import keras
 
 
 class Generator(keras.Model):
-    def __init__(self, pitch_range, batch_size):
+    def __init__(self, pitch_range, time_steps, noise_dim, depth):
         super(Generator, self).__init__()
-        self.relu = layers.Dense(400, activation="relu", input_shape=(batch_size*2, 1, 128, 16))
-        self.lstm1 = layers.LSTM(400, activation="tanh", return_sequences=True)
-        self.lstm2 = layers.LSTM(400, activation="tanh", return_sequences=True)
-        self.linear = layers.Dense(3, activation="linear")
+        self.depth = depth
+        self.pitch_range = pitch_range
+        self.time_steps = time_steps
 
-    def call(self, inputs, **kwargs):
-        x, noise = inputs
+        self.lrelu = layers.LeakyReLU(alpha=0.3)  # leaky relu
+        self.batch_norm = lambda x: \
+            layers.BatchNormalization(epsilon=1e-05, momentum=0.9, scale=True)(x)
 
+        self.relu = layers.Dense(400, activation="relu", input_shape=(time_steps, pitch_range))
+        self.lstm = layers.LSTM(400, activation="tanh", return_sequences=True)
+        self.linear = layers.Dense(pitch_range, activation="linear")
+
+    def call(self, noise, **kwargs):
         noise = tf.cast(noise, dtype=float)
-        x = tf.cast(x, dtype=float)
-        x = tf.convert_to_tensor(x)
-        noise = tf.convert_to_tensor(noise)
+        # x = tf.cast(x, dtype=float)
+        # x = tf.convert_to_tensor(x)
+        # noise = tf.convert_to_tensor(noise)
 
-        lstm_input = layers.Concatenate()([noise, x])
-        return self.linear(self.lstm2(self.lstm1(self.relu(lstm_input))))
+        # lstm_input = layers.Concatenate()([noise, x])
+
+        o = self.batch_norm(self.relu(noise))
+        for _ in range(self.depth):
+            o = self.batch_norm(self.lstm(o))
+
+        o = self.linear(o)
+        o = tf.reshape(o, [-1, self.time_steps, self.pitch_range])
+        return o
 
 
 class Discriminator(keras.Model):
-    def __init__(self, pitch_range, batch_size):
+    def __init__(self, pitch_range, time_steps, depth):
         super(Discriminator, self).__init__()
-        self.lstm1 = layers.LSTM(400, activation="tanh", return_sequences=True, input_shape=(batch_size, 1, 128, 16))
+        self.depth = depth
+        self.pitch_range = pitch_range
+        self.time_steps = time_steps
+        self.units = 400
+
+        self.lrelu = layers.LeakyReLU(alpha=0.3)  # leaky relu
+        self.batch_norm = lambda x: \
+            layers.BatchNormalization(epsilon=1e-05, momentum=0.9, scale=True)(x)
+
+        self.lstm1 = layers.LSTM(400, activation="tanh", return_sequences=True)
         self.lstm2 = layers.LSTM(400, activation="tanh", return_sequences=True)
-        self.output = layers.Dense(2, activation="sigmoid")
+        self.linear = layers.Dense(1, activation="sigmoid")
 
-
-    def call(self, inputs, **kwargs):
-        x = inputs
-
+    def call(self, x, **kwargs):
         x = tf.cast(x, dtype=float)
-        
-        return self.output(self.lstm2(self.lstm1(x)))
+
+        o = self.batch_norm(self.lstm1(x))
+        for _ in range(self.depth - 1):
+            o = self.batch_norm(self.lstm2(o))
+        shape = o.get_shape()
+        o = tf.reshape(o, [-1, shape[1]*shape[2]])
+        return self.linear(o)

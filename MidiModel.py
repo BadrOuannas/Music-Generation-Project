@@ -1,5 +1,6 @@
 from tensorflow import keras
-from GAN_midinet import *
+#from GAN_midinet import *
+from GAN_midinet_modified import *
 
 """
 Model for midinet construct the GAN model

@@ -54,7 +54,7 @@ class Generator(keras.Model):
         self.linear1 = lambda z, dim: layers.Dense(1024, input_dim=dim)(z)
         self.linear2 = lambda h0, dim: layers.Dense(self.gf_dim * 2 * 2 * 1, input_dim=dim)(h0)
 
-        self.lstm1 = layers.LSTM(400, activation="tanh", return_sequences=True)
+        self.lstm1 = layers.LSTM(400, input_shape=(batch_size, 16, 128), activation="tanh", return_sequences=True)
         self.lstm2 = layers.LSTM(400, activation="tanh", return_sequences=True)
 
 
@@ -120,12 +120,16 @@ class Generator(keras.Model):
         h4 = conv_concat(h4, yb)  # ([72, 141, 16, 1])
         h4 = conv_prev_concat(h4, h0_prev)  # ([72, 157, 16, 1])
 
-        h5 = self.lstm1(h4)
-        h6 = self.lstm2(h5)
+        cnn_x = activ.sigmoid(self.h4(h4))  # ([72, 1, 16, 128])
 
-        g_x = activ.sigmoid(self.h6(h6))  # ([72, 1, 16, 128])
+        cnn_x = tf.reshape(cnn_x, [self.batch_size, 16, 128])
 
-        return g_x
+        l1 = self.lstm1(cnn_x)
+        l2 = self.lstm2(l1)         #72, 16, 400
+
+        print(l2.shape)
+
+        return l2
 
 
 class Discriminator(keras.Model):

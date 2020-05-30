@@ -14,8 +14,8 @@ Code for training the GAN model for Midinet
 
 def load_datasets(datasets):
     x_file, prev_x_file, y_file = datasets
-    x = np.load(x_file, allow_pickle=True)
-    prev_x = np.load(prev_x_file, allow_pickle=True)
+    x = np.load("data/" + x_file, allow_pickle=True)
+    prev_x = np.load("data/" + prev_x_file, allow_pickle=True)
     n = x.shape[0]
 
     # chords

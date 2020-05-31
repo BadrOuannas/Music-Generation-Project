@@ -20,7 +20,6 @@ def load_datasets(datasets):
 
     # chords
     y = c_major(n)  # change however you like! array (n, 13) see table 2 paper
-    # y = np.load(y_file, allow_pickle=True)
     return x, prev_x, y
 
 
@@ -65,7 +64,7 @@ def main():
     lr = 0.00005
     beta1 = 0.5
     noise_dim = 100
-    num_epochs = 100
+    num_epochs = 50
 
     datasets = ['data_x.npy', 'prev_x.npy', 'chords.npy']
     x, prev_x, chords = load_datasets(datasets)
@@ -83,6 +82,7 @@ def main():
     model = MidiNet(pitch_range, batch_size)
     model.compile(d_optim, g_optim, tf.nn.sigmoid_cross_entropy_with_logits)
 
+    seed = 1996
     for epoch in range(num_epochs):
         d_loss_avg = tf.keras.metrics.Mean()
         g_loss_avg = tf.keras.metrics.Mean()
@@ -91,7 +91,6 @@ def main():
         batch_idxs = x.shape[0] // batch_size
 
         for idx in range(0, batch_idxs):
-            seed = 2020
             batch_x = x[idx * batch_size:(idx + 1) * batch_size]
             batch_prev_x = prev_x[idx * batch_size:(idx + 1) * batch_size]
             chord_cond = chords[idx * batch_size:(idx + 1) * batch_size]
@@ -184,7 +183,7 @@ def main():
     # inputs = keras.Input(shape=x.shape[1:], batch_size=batch_size)
     # model._set_inputs(inputs)
     # saving the model's generator
-    model.generator.save_weights("./weights_g_major_20epochs/gen_weights", save_format='tf')
+    model.generator.save_weights("./MidiNet/gen_weights", save_format='tf')
     plt.plot(np.arange(len(d_loss_list)), d_loss_list, 'cx', label="d_loss")
     plt.plot(np.arange(len(g_loss_list)), g_loss_list, 'bx', label="g_loss")
     plt.legend()

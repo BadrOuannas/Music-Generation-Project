@@ -57,8 +57,8 @@ def main():
     songs = np.load('./samples/songs.npy')  # array of shape (N, 128, 128) N number of songs sampled with the generator
     chords = np.load('./samples/chords.npy')
 
-    volume = 50
-    instrument = 3  # piano; see https://www.midi.org/specifications/item/gm-level-1-sound-set for more info
+    volume = 75
+    instrument = 1  # piano; see https://www.midi.org/specifications/item/gm-level-1-sound-set for more info
     chord_map = build_chord_map()
 
     for i in range(songs.shape[0]):
@@ -79,7 +79,7 @@ def main():
         chord_track = make_chord_track(style, instrument, volume)
 
         multitrack = Multitrack(tracks=[song_track, chord_track], tempo=100.0, beat_resolution=4)
-        multitrack.write("./songs/gen_midi{}_instrument{}.mid".format(i, instrument))
+        multitrack.write("./songs/MidiNet_C_major/gen_midi{}_instrument{}.mid".format(i, instrument))
 
 
 if __name__ == '__main__':

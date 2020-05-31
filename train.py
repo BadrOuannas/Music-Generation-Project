@@ -19,7 +19,7 @@ def load_datasets(datasets):
     n = x.shape[0]
 
     # chords
-    y = g_major(n)  # change however you like! array (n, 13) see table 2 paper
+    y = c_major(n)  # change however you like! array (n, 13) see table 2 paper
     # y = np.load(y_file, allow_pickle=True)
     return x, prev_x, y
 

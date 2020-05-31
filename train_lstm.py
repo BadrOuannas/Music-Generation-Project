@@ -10,27 +10,30 @@ from LSTMModel import *
 from tensorflow import keras
 
 """
-Code for training the GAN model for Midinet
+Code for training the GAN model for LSTMidi
 """
 
 
-def load_dataset(x_file):
-    x = np.load(x_file, allow_pickle=True)
-    return x
+def a_minor(batch_size):
+    chords = np.zeros((batch_size, 13))
+    chords[:, 0] = 1
+    chords[:, -1] = 1
+    return chords
 
 
 def main():
     batch_size = 72
     pitch_range = 128
     time_steps = 16
-    depth = 3
+    depth = 2
 
     lr = 0.0001
-    beta1 = 0.75
+    beta1 = 0.5
     noise_dim = 128
-    num_epochs = 50
+    num_epochs = 20
 
-    x = load_dataset('./data/data_x.npy')
+    x = np.load('./data/data_x.npy', allow_pickle=True)
+    chords = a_minor(batch_size)
     x = np.transpose(x, (0, 3, 2, 1))
     x = np.reshape(x, [-1, time_steps, pitch_range])
     print(x.shape)
@@ -67,8 +70,8 @@ def main():
             )
 
             # Train the discriminator on data from generator
-            noise = tf.random.normal(shape=(batch_size, time_steps, noise_dim))
-            gen_midi = model.generator(noise)
+            noise = tf.random.normal(shape=(batch_size, time_steps * noise_dim))
+            gen_midi = model.generator([chords, noise])
 
             with tf.GradientTape() as tape:
                 pred_ = model.discriminator(gen_midi)
@@ -80,7 +83,7 @@ def main():
 
             # train generator
             with tf.GradientTape() as tape:
-                pred_ = model.discriminator(model.generator(noise))
+                pred_ = model.discriminator(model.generator([chords, noise]))
                 pred = model.discriminator(batch_x)
 
                 g_loss0 = tf.math.reduce_mean(model.loss_fn(pred_, labels_real))
@@ -100,7 +103,7 @@ def main():
 
             # train generator again!
             with tf.GradientTape() as tape:
-                pred_ = model.discriminator(model.generator(noise))
+                pred_ = model.discriminator(model.generator([chords, noise]))
                 pred = model.discriminator(batch_x)
 
                 g_loss0 = tf.math.reduce_mean(model.loss_fn(pred_, labels_real))

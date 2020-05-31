@@ -3,7 +3,6 @@ import tensorflow as tf
 import numpy as np
 
 from random import random, randint, seed
-from pypianoroll import Track, Multitrack
 from sklearn.utils import shuffle
 from MidiModel import MidiNet
 
@@ -25,6 +24,14 @@ def construct_random_chords(rs, batch_size):
     return chords
 
 
+def g_major(n):
+    y = []
+    for i in range(n):
+        y.append([0] * 7 + [1] + [0] * 4 + [0])
+    y = np.vstack(y)
+    return y
+
+
 def a_minor(batch_size):
     chords = np.zeros((batch_size, 13))
     chords[:, 0] = 1
@@ -39,7 +46,7 @@ def main():
     num_max_songs = 10
 
     # choosing model
-    model = load_model("./weights_random_100epochs/gen_weights.index", pitch_range, batch_size)
+    model = load_model("./weights_g_major_20epochs/gen_weights.index", pitch_range, batch_size)
 
     prev_x = np.load('./data/prev_x.npy')
     prev_x = np.transpose(prev_x, (0, 3, 2, 1))
@@ -54,8 +61,8 @@ def main():
     for idx in range(0, min(batch_idxs, num_max_songs)):
         seed = 2020
         batch_prev_x = prev_x[idx * batch_size:(idx + 1) * batch_size]
-        chord_cond = construct_random_chords(seed, batch_size)
-        # chord_cond = a_minor(batch_size)
+        # chord_cond = construct_random_chords(seed, batch_size)
+        chord_cond = g_major(batch_size)
         noise = tf.random.normal(shape=(batch_size, noise_dim))
 
         current_song = model.generator([noise, batch_prev_x, chord_cond])

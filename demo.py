@@ -1,11 +1,9 @@
 import matplotlib.pyplot as plt
-import tensorflow as tf
 import numpy as np
 
-from random import random, randint, seed
+
 from pypianoroll import Track, Multitrack
-from sklearn.utils import shuffle
-from MidiModel import MidiNet
+
 
 # 3 first functions use implementation of annahung31
 
@@ -60,7 +58,7 @@ def main():
     chords = np.load('./samples/chords.npy')
 
     volume = 50
-    instrument = 1  # piano; see https://www.midi.org/specifications/item/gm-level-1-sound-set for more info
+    instrument = 3  # piano; see https://www.midi.org/specifications/item/gm-level-1-sound-set for more info
     chord_map = build_chord_map()
 
     for i in range(songs.shape[0]):

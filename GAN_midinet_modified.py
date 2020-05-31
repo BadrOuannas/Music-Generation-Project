@@ -23,9 +23,6 @@ def conv_prev_concat(x, y):
     y_shapes = y.get_shape()
     if x_shapes[:2] == y_shapes[:2]:
         return tf.concat([x, y * tf.ones([x_shapes[0], x_shapes[1], x_shapes[2], y_shapes[3]])], 3)
-    else:
-        print(x_shapes[:2])
-        print(y_shapes[:2])
 
 
 class Generator(keras.Model):
@@ -54,8 +51,8 @@ class Generator(keras.Model):
         self.linear1 = lambda z, dim: layers.Dense(1024, input_dim=dim)(z)
         self.linear2 = lambda h0, dim: layers.Dense(self.gf_dim * 2 * 2 * 1, input_dim=dim)(h0)
 
-        self.lstm1 = layers.LSTM(400, input_shape=(batch_size, 16, 128), activation="tanh", return_sequences=True)
-        self.lstm2 = layers.LSTM(400, activation="tanh", return_sequences=True)
+        self.lstm1 = layers.LSTM(128, input_shape=(16, 128), activation="tanh", return_sequences=True)
+        self.lstm2 = layers.LSTM(128, activation="tanh", return_sequences=True)
 
 
     def call(self, inputs, **kwargs):
@@ -127,9 +124,9 @@ class Generator(keras.Model):
         l1 = self.lstm1(cnn_x)
         l2 = self.lstm2(l1)         #72, 16, 400
 
-        print(l2.shape)
+        res = tf.reshape(l2, [self.batch_size, 16, 128, 1])
 
-        return l2
+        return res
 
 
 class Discriminator(keras.Model):

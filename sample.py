@@ -54,7 +54,7 @@ def main():
     num_max_songs = 10
 
     # choosing model
-    model = load_model("./MidiNet/gen_weights.index", pitch_range, batch_size)
+    model = load_model("./MidiNet/gen_weights.index", pitch_range, batch_size) # chnage folder from "./MidiNet/gen_weights.index" to "./MidiNetLSTM/gen_weights.index" to use the other model
 
     prev_x = np.load('./data/prev_x.npy')
     prev_x = np.transpose(prev_x, (0, 3, 2, 1))

@@ -10,7 +10,7 @@ from pypianoroll import Track, Multitrack
 # building the chord map see paper table 2
 def build_chord_map():
         c_maj = [60, 64, 67]
-        c_min = [60, 63, 67]
+        c_min = [67, 71, 74] #actually gmaj
         chord_map = []
         chord_list_maj = []
         chord_list_min = []
@@ -55,10 +55,11 @@ def make_chord_track(chord, instrument, volume):
 
 def main():
     songs = np.load('./samples/songs.npy')  # array of shape (N, 128, 128) N number of songs sampled with the generator
+    # songs = np.load('./samples/songs_lstm.npy')  # array of shape (N, 128, 128) N number of songs sampled with the generator
     chords = np.load('./samples/chords.npy')
 
     volume = 75
-    instrument = 1  # piano; see https://www.midi.org/specifications/item/gm-level-1-sound-set for more info
+    instrument = 33  # piano; see https://www.midi.org/specifications/item/gm-level-1-sound-set for more info
     chord_map = build_chord_map()
 
     for i in range(songs.shape[0]):
@@ -79,7 +80,7 @@ def main():
         chord_track = make_chord_track(style, instrument, volume)
 
         multitrack = Multitrack(tracks=[song_track, chord_track], tempo=100.0, beat_resolution=4)
-        multitrack.write("./songs/MidiNet_C_major/gen_midi{}_instrument{}.mid".format(i, instrument))
+        multitrack.write("./songs/MidiNet_CG_major/gen_midi{}_instrument{}.mid".format(i, instrument))
 
 
 if __name__ == '__main__':
